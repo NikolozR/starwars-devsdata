@@ -4,61 +4,30 @@ import CharacterHero from "@/components/CharacterHero";
 import CharacterInfoCards from "@/components/CharacterInfoCards";
 import ExpandableSection from "@/components/ExpandableSection";
 import Footer from "@/components/Footer";
+import { getPeopleById } from "@/lib/api/fetchPeople";
+import { extractId } from "@/lib/utils/extractId";
+import { getPlanetById } from "@/lib/api/fetchPlanet";
+import { getSpecieById } from "@/lib/api/fetchSpecies";
+import { getFilmById } from "@/lib/api/fetchFilms";
+import { getStarshipById } from "@/lib/api/fetchStarships";
+import { getVehicleById } from "@/lib/api/fetchVehicles";
 
-
-export default function CharacterDetails() {
-  const getCharacterData = (id: string) => {
-    const characters = {
-      "1": {
-        name: "Luke Skywalker",
-        description: "A legendary Jedi Knight who helped restore freedom to the galaxy and destroy the Galactic Empire.",
-        birth_year: "19BBY",
-        gender: "Male",
-        homeworld: "Tatooine",
-        films: ["A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Revenge of the Sith"],
-        species: ["Human"],
-        starships: ["X-wing", "Imperial Shuttle"],
-        vehicles: ["Snowspeeder", "Imperial Speeder Bike"]
-      },
-      "2": {
-        name: "Princess Leia",
-        description: "A leader of the Rebel Alliance and princess of the planet Alderaan.",
-        birth_year: "19BBY",
-        gender: "Female",
-        homeworld: "Alderaan",
-        films: ["A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Revenge of the Sith"],
-        species: ["Human"],
-        starships: [],
-        vehicles: ["Speeder Bike"]
-      },
-      "3": {
-        name: "Han Solo",
-        description: "A smuggler turned Rebel Alliance general who captained the Millennium Falcon.",
-        birth_year: "29BBY",
-        gender: "Male",
-        homeworld: "Corellia",
-        films: ["A New Hope", "The Empire Strikes Back", "Return of the Jedi"],
-        species: ["Human"],
-        starships: ["Millennium Falcon", "Imperial Shuttle"],
-        vehicles: []
-      }
-    };
-    
-    return characters[id as keyof typeof characters] || {
-      name: "Unknown Character",
-      description: "A mysterious being from the Star Wars universe.",
-      birth_year: "Unknown",
-      gender: "Unknown",
-      homeworld: "Unknown",
-      films: ["Various Star Wars films"],
-      species: ["Unknown"],
-      starships: ["Unknown"],
-      vehicles: ["Unknown"]
-    };
-  };
-
-  const character = getCharacterData("1");
-
+export default async function CharacterDetails({params}: {params: Promise<{id: string}>}) {
+  const {id} = await params;
+  const character = await getPeopleById(extractId(id));
+  const planet = await getPlanetById(extractId(character.homeworld));
+  const species = await Promise.all(
+    character.species.map((link) => getSpecieById(extractId(link)))
+  );
+  const films = await Promise.all(
+    character.films.map((link) => getFilmById(extractId(link)))
+  );
+  const starships = await Promise.all(
+    character.starships.map((link) => getStarshipById(extractId(link)))
+  );
+  const vehicles = await Promise.all(
+    character.vehicles.map((link) => getVehicleById(extractId(link)))
+  );
   return (
     <div className="min-h-screen text-white">
       <CharacterHeader />
@@ -66,58 +35,58 @@ export default function CharacterDetails() {
       <main className="max-w-4xl mx-auto px-4 py-8">
         <CharacterHero 
           name={character.name}
-          description={character.description}
+          description="A character from the Star Wars universe with their own unique story and adventures."
         />
 
         <CharacterInfoCards
           birthYear={character.birth_year}
           gender={character.gender}
-          homeworld={character.homeworld}
+          homeworld={planet.name}
         />
 
         <div className="space-y-4">
           <ExpandableSection
             title="Films"
             icon="🎬"
-            items={character.films}
+            elements={films}
+            cardType="film"
             itemColor="bg-purple-600/20 hover:bg-purple-600/30"
             itemIcon="⭐"
             emptyIcon="🌌"
             emptyMessage="No films associated with this character"
-            renderAsGrid={true}
           />
 
           <ExpandableSection
             title="Species"
             icon="🧬"
-            items={character.species}
+            elements={species}
+            cardType="species"
             itemColor="bg-green-600/20 hover:bg-green-600/30"
             itemIcon="🌿"
             emptyIcon="🌌"
             emptyMessage="No species information available"
-            renderAsGrid={false}
           />
 
           <ExpandableSection
             title="Starships"
             icon="🚀"
-            items={character.starships}
+            elements={starships}
+            cardType="starship"
             itemColor="bg-blue-600/20 hover:bg-blue-600/30"
             itemIcon="🛸"
             emptyIcon="🌌"
             emptyMessage="No starships associated with this character"
-            renderAsGrid={true}
           />
 
           <ExpandableSection
             title="Vehicles"
             icon="🏎️"
-            items={character.vehicles}
+            elements={vehicles}
+            cardType="vehicle"
             itemColor="bg-orange-600/20 hover:bg-orange-600/30"
             itemIcon="🛻"
             emptyIcon="🏜️"
             emptyMessage="No vehicles associated with this character"
-            renderAsGrid={true}
           />
         </div>
 
