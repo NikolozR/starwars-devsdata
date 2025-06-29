@@ -22,7 +22,7 @@ export default function VehicleCard({ vehicle, className = "" }: VehicleCardProp
             {vehicle.vehicle_class}
           </span>
         )}
-        {vehicle.max_atmosphering_speed && vehicle.max_atmosphering_speed !== "unknown" && (
+        {vehicle.max_atmosphering_speed && (
           <span className="bg-orange-400/10 px-2 py-1 rounded-full text-orange-400 text-xs">
             {vehicle.max_atmosphering_speed} km/h
           </span>
@@ -30,13 +30,13 @@ export default function VehicleCard({ vehicle, className = "" }: VehicleCardProp
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-xs text-gray-400">
-        {vehicle.crew && vehicle.crew !== "unknown" && (
+        {vehicle.crew && (
           <div>Crew: <span className="text-orange-300">{vehicle.crew}</span></div>
         )}
-        {vehicle.passengers && vehicle.passengers !== "unknown" && (
+        {vehicle.passengers && (
           <div>Passengers: <span className="text-orange-300">{vehicle.passengers}</span></div>
         )}
-        {vehicle.length && vehicle.length !== "unknown" && (
+        {vehicle.length && (
           <div className="col-span-2">Length: <span className="text-orange-300">{vehicle.length}</span></div>
         )}
       </div>
