@@ -92,7 +92,7 @@ export default async function CharacterDetails({params}: {params: Promise<{id: s
 
         <div className="text-center mt-12">
           <Link 
-            href="/"
+            href="/characters"
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25"
           >
             <span>🌟</span>
