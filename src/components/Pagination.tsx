@@ -14,7 +14,7 @@ export default function Pagination({
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) ?? 1;
+  const currentPage = searchParams.get('page') ? Number(searchParams.get("page")) : 1;
   const renderPageNumbers = () => {
     const pages = [];
     if (totalPages <= 7) {

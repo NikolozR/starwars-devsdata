@@ -40,7 +40,7 @@ export default async function CharactersPage({searchParams}: {searchParams: Prom
           />
           
           <div className="text-center text-gray-400 text-sm">
-            Showing {1 + (page - 1) * 10} - {showingNumber + (page - 1) * 10} of {people.count} characters
+            Showing {1 + (pageNumber - 1) * 10} - {showingNumber + (pageNumber - 1) * 10} of {people.count} characters
           </div>
         </div>
       </main>
