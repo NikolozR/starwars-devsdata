@@ -15,7 +15,6 @@ export default function Pagination({
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) ?? 1;
-  console.log(currentPage, "CURRENT PAGE");
   const renderPageNumbers = () => {
     const pages = [];
     if (totalPages <= 7) {
@@ -25,7 +24,7 @@ export default function Pagination({
             key={i}
             onClick={() => router.replace(`/characters?page=${i}`)}
             aria-current={i === currentPage ? "page" : undefined}
-            className={`w-10 h-10 rounded-lg flex items-center justify-center font-medium transition-all duration-200
+            className={`w-10 cursor-pointer h-10 rounded-lg flex items-center justify-center font-medium transition-all duration-200
               ${i === currentPage
                 ? "!bg-yellow-400 text-purple-900 font-extrabold border-4 border-yellow-500 scale-110 z-10"
                 : "bg-white/10 hover:bg-white/20 border border-purple-500/30 hover:border-yellow-400/50 text-white"}
@@ -56,7 +55,7 @@ export default function Pagination({
             key={p}
             onClick={() => router.replace(`/characters?page=${p}`)}
             aria-current={p === currentPage ? "page" : undefined}
-            className={`w-10 h-10 rounded-lg flex items-center justify-center font-medium transition-all duration-200
+            className={`w-10 cursor-pointer h-10 rounded-lg flex items-center justify-center font-medium transition-all duration-200
               ${p === currentPage
                 ? "!bg-yellow-400 text-purple-900 font-extrabold border-4 border-yellow-500 scale-110 z-10"
                 : "bg-white/10 hover:bg-white/20 border border-purple-500/30 hover:border-yellow-400/50 text-white"}
@@ -73,7 +72,7 @@ export default function Pagination({
   return (
     <div className={`flex items-center justify-center gap-2 ${className}`}>
       <button
-        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+        className={`flex cursor-pointer items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
           currentPage === 1
             ? "bg-white/5 border border-purple-500/20 text-gray-500 cursor-not-allowed"
             : "bg-white/10 hover:bg-white/20 border border-purple-500/30 hover:border-yellow-400/50 text-white hover:shadow-lg hover:shadow-purple-500/25"
@@ -90,7 +89,7 @@ export default function Pagination({
       </div>
 
       <button
-        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
+        className={`flex cursor-pointer items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
           currentPage === totalPages
             ? "bg-white/5 border border-purple-500/20 text-gray-500 cursor-not-allowed"
             : "bg-white/10 hover:bg-white/20 border border-purple-500/30 hover:border-yellow-400/50 text-white hover:shadow-lg hover:shadow-purple-500/25"

@@ -1,3 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+
+
 interface SearchBarProps {
   placeholder?: string;
 }
@@ -5,6 +11,27 @@ interface SearchBarProps {
 export default function SearchBar({ 
   placeholder = "Search for characters from a galaxy far, far away..." 
 }: SearchBarProps) {
+  const [search, setSearch] = useState("");
+  const router = useRouter();
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      if (value.length > 0) {
+        router.replace(`/characters?search=${value}&page=1`);
+      } else {
+        router.replace(`/characters?page=1`);
+      }
+    }, 600);
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 mb-12">
       <div className="relative">
@@ -13,8 +40,10 @@ export default function SearchBar({
         </div>
         <input
           type="text"
+          onChange={handleChange}
           placeholder={placeholder}
-          className="w-full pl-12 pr-6 py-4 bg-white/10 border border-purple-500/30 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent backdrop-blur-sm transition-all duration-300 hover:bg-white/15"
+          value={search}
+          className="w-full pl-12 pr-6 py-4 bg-white/10 border border-purple-500/30 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-300 hover:bg-white/15"
         />
       </div>
     </div>

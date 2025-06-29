@@ -23,8 +23,8 @@ export async function getPeopleById(id: string): Promise<Character> {
     return await response.json();
 }
 
-export async function searchPeople(query: string): Promise<PeopleResponse> {
-    const response = await fetch(SearchCharacter(query), {
+export async function searchPeople(query: string, page: number = 1): Promise<PeopleResponse> {
+    const response = await fetch(SearchCharacter(query, page), {
         cache: "force-cache",
     });
     if (!response.ok) {

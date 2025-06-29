@@ -1,7 +1,7 @@
 import { SWAPI_BASE_URL } from "../constants";
 
 export const SingleCharacter = (id: string) => `${SWAPI_BASE_URL}/people/${id}`;
-export const SearchCharacter = (query: string) => `${SWAPI_BASE_URL}/people/?search=${query}`;
+export const SearchCharacter = (query: string, page: number = 1) => `${SWAPI_BASE_URL}/people/?search=${query}&page=${page}`;
 export const People = (page: number) => `${SWAPI_BASE_URL}/people/?page=${page}`;
 export const Planets = (page: number) => `${SWAPI_BASE_URL}/planets/?page=${page}`;
 export const SinglePlanet = (id: string) => `${SWAPI_BASE_URL}/planets/${id}`;

@@ -3,13 +3,13 @@ import SearchBar from "@/components/SearchBar";
 import CharacterCard from "@/components/CharacterCard";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
-import { getPeople } from "@/lib/api/fetchPeople";
+import { getPeople, searchPeople } from "@/lib/api/fetchPeople";
 import { PeopleResponse } from "@/lib/types/swapiResponses";
 
-export default async function CharactersPage({searchParams}: {searchParams: Promise<{page: number}>}) {
-  let {page} = await searchParams;
-  page = page ?? 1;
-  const people: PeopleResponse = await getPeople(page); 
+export default async function CharactersPage({searchParams}: {searchParams: Promise<{page: number, search: string}>}) {
+  const {page, search} = await searchParams;
+  const pageNumber = page ?? 1;
+  const people: PeopleResponse = search ? await searchPeople(search, pageNumber) : await getPeople(pageNumber); 
   const showingNumber = people.results.length;
   const totalPages = Math.ceil(people.count / 10);
   
