@@ -35,7 +35,6 @@ export default async function CharacterDetails({params}: {params: Promise<{id: s
       <main className="max-w-4xl mx-auto px-4 py-8">
         <CharacterHero 
           name={character.name}
-          description="A character from the Star Wars universe with their own unique story and adventures."
         />
 
         <CharacterInfoCards
